@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { Report, ClassificationResult, ReportSubmission } from '@/types/report';
+import { Report, ClassificationResult, ReportSubmission, ReportWithClassification, ResourceAllocation, WorkValidation, DataAnalysis, MunicipalityLeaderboard, CitizenIncentive, CitizenStats } from '@/types/report';
 
 // Create axios instance with base configuration
 const apiClient: AxiosInstance = axios.create({
@@ -153,6 +153,150 @@ export async function getMyReports(): Promise<Report[]> {
     if (axios.isAxiosError(error)) {
       throw new Error(
         error.response?.data?.message || 'Failed to fetch reports'
+      );
+    }
+    throw error;
+  }
+}
+
+/**
+ * Get all validated reports for admin dashboard
+ */
+export async function getValidatedReports(): Promise<ReportWithClassification[]> {
+  try {
+    const response = await apiClient.get<ReportWithClassification[]>('/api/admin/validated-reports');
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(
+        error.response?.data?.message || 'Failed to fetch validated reports'
+      );
+    }
+    throw error;
+  }
+}
+
+/**
+ * Get resource allocation for a report
+ */
+export async function getResourceAllocation(reportId: string): Promise<ResourceAllocation> {
+  try {
+    const response = await apiClient.get<ResourceAllocation>(`/api/admin/resource-allocation/${reportId}`);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(
+        error.response?.data?.message || 'Failed to fetch resource allocation'
+      );
+    }
+    throw error;
+  }
+}
+
+/**
+ * Get all work validations
+ */
+export async function getWorkValidations(): Promise<WorkValidation[]> {
+  try {
+    const response = await apiClient.get<WorkValidation[]>('/api/admin/work-validations');
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(
+        error.response?.data?.message || 'Failed to fetch work validations'
+      );
+    }
+    throw error;
+  }
+}
+
+/**
+ * Validate work (before/after images)
+ */
+export async function validateWork(validationId: string): Promise<WorkValidation> {
+  try {
+    const response = await apiClient.post<WorkValidation>(
+      `/api/admin/work-validations/${validationId}/validate`,
+      {}
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(
+        error.response?.data?.message || 'Failed to validate work'
+      );
+    }
+    throw error;
+  }
+}
+
+/**
+ * Get data analysis
+ */
+export async function getDataAnalysis(params?: {
+  report_id?: string;
+  analysis_type?: 'overall' | 'category' | 'location' | 'time_period';
+}): Promise<DataAnalysis> {
+  try {
+    const response = await apiClient.get<DataAnalysis>('/api/admin/data-analysis', {
+      params,
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(
+        error.response?.data?.message || 'Failed to fetch data analysis'
+      );
+    }
+    throw error;
+  }
+}
+
+/**
+ * Get municipality leaderboard
+ */
+export async function getLeaderboard(): Promise<MunicipalityLeaderboard[]> {
+  try {
+    const response = await apiClient.get<MunicipalityLeaderboard[]>('/api/citizen/leaderboard');
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(
+        error.response?.data?.message || 'Failed to fetch leaderboard'
+      );
+    }
+    throw error;
+  }
+}
+
+/**
+ * Get citizen incentives
+ */
+export async function getMyIncentives(): Promise<CitizenIncentive[]> {
+  try {
+    const response = await apiClient.get<CitizenIncentive[]>('/api/citizen/incentives');
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(
+        error.response?.data?.message || 'Failed to fetch incentives'
+      );
+    }
+    throw error;
+  }
+}
+
+/**
+ * Get citizen stats
+ */
+export async function getMyStats(): Promise<CitizenStats> {
+  try {
+    const response = await apiClient.get<CitizenStats>('/api/citizen/stats');
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(
+        error.response?.data?.message || 'Failed to fetch stats'
       );
     }
     throw error;

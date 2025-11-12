@@ -11,6 +11,7 @@ module.exports = {
         white: '#FFFFFF',
         green: '#138808',
         'indian-blue': '#000080',
+        'sustainable': '#4DFFBE',
       },
       fontFamily: {
         sans: ['Mukta', 'Noto Sans', 'system-ui', 'sans-serif'],

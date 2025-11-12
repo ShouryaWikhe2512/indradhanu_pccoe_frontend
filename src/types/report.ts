@@ -47,3 +47,100 @@ export interface ReportWithClassification extends Report {
   classification?: ClassificationResult;
 }
 
+export interface ResourceAllocation {
+  report_id: string;
+  resources: Resource[];
+  total_budget: number;
+  estimated_duration_days: number;
+  priority: 'low' | 'medium' | 'high' | 'urgent';
+  allocated_at?: string;
+}
+
+export interface Resource {
+  resource_type: string;
+  quantity: number;
+  unit: string;
+  cost_per_unit: number;
+  total_cost: number;
+  description?: string;
+}
+
+export interface WorkValidation {
+  report_id: string;
+  before_images: string[];
+  after_images: string[];
+  validation_status: 'pending' | 'validated' | 'rejected';
+  validation_result?: {
+    is_complete: boolean;
+    confidence: number;
+    improvements_detected: string[];
+    issues_remaining: string[];
+    verification_score: number;
+    verified_at: string;
+  };
+  submitted_at: string;
+}
+
+export interface DataAnalysis {
+  report_id?: string;
+  analysis_type: 'overall' | 'category' | 'location' | 'time_period';
+  charts: Chart[];
+  insights: Insight[];
+  generated_at: string;
+}
+
+export interface Chart {
+  type: 'bar' | 'line' | 'pie' | 'area';
+  title: string;
+  data: ChartDataPoint[];
+  x_axis_label?: string;
+  y_axis_label?: string;
+}
+
+export interface ChartDataPoint {
+  label: string;
+  value: number;
+  color?: string;
+}
+
+export interface Insight {
+  title: string;
+  description: string;
+  impact: 'high' | 'medium' | 'low';
+  recommendation?: string;
+}
+
+export interface MunicipalityLeaderboard {
+  municipality_id: string;
+  municipality_name: string;
+  total_reports: number;
+  resolved_reports: number;
+  resolution_rate: number;
+  average_resolution_time_days: number;
+  rank: number;
+  score: number;
+  badge?: 'gold' | 'silver' | 'bronze';
+}
+
+export interface CitizenIncentive {
+  incentive_id: string;
+  report_id: string;
+  incentive_type: 'points' | 'cash' | 'badge' | 'recognition';
+  amount?: number;
+  points?: number;
+  badge_name?: string;
+  description: string;
+  status: 'pending' | 'approved' | 'credited';
+  earned_at: string;
+  credited_at?: string;
+}
+
+export interface CitizenStats {
+  total_reports: number;
+  validated_reports: number;
+  total_points: number;
+  total_incentives: number;
+  badges: string[];
+  rank?: number;
+}
+
